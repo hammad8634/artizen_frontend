@@ -1,22 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+// import "bootstrap/dist/css/bootstrap.min.css";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+// import PrivateComponent from "./PrivateComponents/PrivateComponent";
+import ForgotPassword from "./authentication/forgotPassword";
+import LoginPage from "./authentication/loginPage";
+import SignUpPage from "./authentication/signupPage";
+import Homepage from "./components/homepage";
+import "./tailwind.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Routes>
+          {/* <Route element={<PrivateComponent />}> */}
+            <Route path="/" element={<Homepage />} />
+            <Route path="/home" element={<Homepage />} />
+            {/* <Route path="/logout" element={<h2>Logout Component</h2>} /> */}
+          {/* </Route> */}
+          <Route path="/home" element={<Homepage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+        </Routes>
+        {/* </BrowserRouter> */}
       </header>
     </div>
   );
