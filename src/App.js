@@ -5,7 +5,12 @@ import "./App.css";
 import ForgotPassword from "./authentication/forgotPassword";
 import LoginPage from "./authentication/loginPage";
 import SignUpPage from "./authentication/signupPage";
+import CartPage from "./components/cartPage";
+import CheckoutForm from "./components/checkoutPage";
+import FilterPageProducts from "./components/filterPageProducts";
 import Homepage from "./components/homepage";
+import ProductDetailPage from "./components/singleProduct";
+import WishlistPage from "./components/wishlistPage";
 import "./tailwind.css";
 
 function App() {
@@ -14,9 +19,15 @@ function App() {
       <header className="App-header">
         <Routes>
           {/* <Route element={<PrivateComponent />}> */}
-            <Route path="/" element={<Homepage />} />
-            <Route path="/home" element={<Homepage />} />
-            {/* <Route path="/logout" element={<h2>Logout Component</h2>} /> */}
+          <Route path="/" element={<Homepage />} />
+          <Route path="/home" element={<Homepage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/checkout" element={<CheckoutForm />} />
+          <Route path="/shop" element={<FilterPageProducts />} />
+          <Route path="/singleproduct" element={<ProductDetailPage />} />
+
+          {/* <Route path="/logout" element={<h2>Logout Component</h2>} /> */}
           {/* </Route> */}
           <Route path="/home" element={<Homepage />} />
           <Route path="/login" element={<LoginPage />} />
