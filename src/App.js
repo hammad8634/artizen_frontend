@@ -7,6 +7,7 @@ import LoginPage from "./authentication/loginPage";
 import SignUpPage from "./authentication/signupPage";
 import CartPage from "./components/cartPage";
 import CheckoutForm from "./components/checkoutPage";
+import ContactUs from "./components/contactUs";
 import FilterPageProducts from "./components/filterPageProducts";
 import Homepage from "./components/homepage";
 import ProductDetailPage from "./components/singleProduct";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutForm />} />
           <Route path="/shop" element={<FilterPageProducts />} />
           <Route path="/singleproduct" element={<ProductDetailPage />} />
+          <Route path="/contactUs" element={<ContactUs />} />
 
           {/* <Route path="/logout" element={<h2>Logout Component</h2>} /> */}
           {/* </Route> */}

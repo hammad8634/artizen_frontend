@@ -23,9 +23,9 @@ const Navbar = (props) => {
   const navigation = {
     pages: [
       { name: "Home", href: "/" },
-      { name: "Shop", href: "shop" },
+      { name: "Shop", href: "/shop" },
       { name: "About Us", href: "#" },
-      { name: "Contact Us", href: "#" },
+      { name: "Contact Us", href: "/contactUs" },
     ],
   };
 
@@ -113,7 +113,10 @@ const Navbar = (props) => {
         </Transition.Root>
 
         <header className="relative bg-white">
-          <nav aria-label="Top" className="mx-1 max-w-9xl px-4 sm:px-6 lg:px-8">
+          <nav
+            aria-label="Top"
+            className="mx-1 max-w-9xl px-4 sm:px-6 lg:px-8 "
+          >
             <div className="border-b border-gray-200">
               <div className="flex h-16 items-center">
                 <button
@@ -139,12 +142,12 @@ const Navbar = (props) => {
 
                 {/* Flyout menus */}
                 <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
-                  <div className="flex h-full space-x-8">
+                  <div className="flex h-full space-x-8 ">
                     {navigation.pages.map((page) => (
                       <a
                         key={page.name}
                         href={page.href}
-                        className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                        className="flex items-center text-sm font-medium text-gray-700 hover:text-blue-500"
                       >
                         {page.name}
                       </a>
@@ -191,8 +194,8 @@ const Navbar = (props) => {
         <div className="fixed bottom-0 right-0 z-50">
           {cartOpen && <CartPage />}
         </div>
-        <main className="py-1">
-          <div className="px-4 sm:px-6 lg:px-1">{props.children}</div>
+        <main className="py-0">
+          <div className="px-4 sm:px-6 lg:px-18">{props.children}</div>
         </main>
       </div>
     </>

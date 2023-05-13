@@ -86,7 +86,7 @@ const WishlistPage = () => {
                   {product.availability}{" "}
                 </div>{" "}
               </div>{" "}
-              <div className="md:col-span-2  justify-center md:justify-end flex items-center p=">
+              <div className="md:col-span-2  justify-center md:justify-end flex items-center p-1">
                 <button
                   className={`bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg ${
                     product.availability === "Out of Stock"

@@ -195,8 +195,8 @@ const FilterPageProducts = () => {
             </Dialog>
           </Transition.Root>
 
-          <main className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-1 ml-5 mr-5">
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-5 ">
+          <main className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-1 pl-5 mr-5  ">
+            <div className="flex items-baseline justify-between border-b border-gray-200  p-5">
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">
                 Categories
               </h1>

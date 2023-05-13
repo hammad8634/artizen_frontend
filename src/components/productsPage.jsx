@@ -36,7 +36,7 @@ const Productpage = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="lg:px-18 p-3 bg-gray-100">
       <div className="ml-2 max-w-2xl px-4 lg:max-w-7xl lg:px-4">
         <h2 className="text-2xl font-bold text-gray-900">
           {/* Customers also purchased */}
@@ -112,7 +112,6 @@ const Productpage = () => {
           onPageChange={handlePageClick}
           containerClassName={"flex justify-center mt-12 pb-5"}
           pageClassName={"pt-1"}
-
           pageLinkClassName={
             "px-2 py-1 mx-2 rounded-lg transition-colors duration-300 hover:text-red-500 focus:text-white "
           }
