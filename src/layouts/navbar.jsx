@@ -24,7 +24,7 @@ const Navbar = (props) => {
     pages: [
       { name: "Home", href: "/" },
       { name: "Shop", href: "/shop" },
-      { name: "About Us", href: "#" },
+      { name: "About Us", href: "/aboutUs" },
       { name: "Contact Us", href: "/contactUs" },
     ],
   };
@@ -113,10 +113,7 @@ const Navbar = (props) => {
         </Transition.Root>
 
         <header className="relative bg-white">
-          <nav
-            aria-label="Top"
-            className="mx-1 max-w-9xl px-4 sm:px-6 lg:px-8 "
-          >
+          <nav aria-label="Top" className="mx-1 max-w-9xl px-4 sm:px-6 lg:px-8">
             <div className="border-b border-gray-200">
               <div className="flex h-16 items-center">
                 <button
@@ -130,7 +127,7 @@ const Navbar = (props) => {
 
                 {/* Logo */}
                 <div className="ml-4 flex lg:ml-0">
-                  <a href="#test">
+                  <a href="/home">
                     <span className="sr-only">Your Company</span>
                     <img
                       className="h-8 w-auto"

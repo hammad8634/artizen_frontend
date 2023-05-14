@@ -5,19 +5,24 @@ import "./App.css";
 import ForgotPassword from "./authentication/forgotPassword";
 import LoginPage from "./authentication/loginPage";
 import SignUpPage from "./authentication/signupPage";
+import AboutUs from "./components/aboutUs";
 import CartPage from "./components/cartPage";
 import CheckoutForm from "./components/checkoutPage";
 import ContactUs from "./components/contactUs";
 import FilterPageProducts from "./components/filterPageProducts";
 import Homepage from "./components/homepage";
+import ScrollToTopButton from "./components/scrollUp";
 import ProductDetailPage from "./components/singleProduct";
 import WishlistPage from "./components/wishlistPage";
+import { default as Page404 } from "./errorPages/404Page";
 import "./tailwind.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <ScrollToTopButton />
+
         <Routes>
           {/* <Route element={<PrivateComponent />}> */}
           <Route path="/" element={<Homepage />} />
@@ -28,6 +33,8 @@ function App() {
           <Route path="/shop" element={<FilterPageProducts />} />
           <Route path="/singleproduct" element={<ProductDetailPage />} />
           <Route path="/contactUs" element={<ContactUs />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="*" element={<Page404 />} />
 
           {/* <Route path="/logout" element={<h2>Logout Component</h2>} /> */}
           {/* </Route> */}

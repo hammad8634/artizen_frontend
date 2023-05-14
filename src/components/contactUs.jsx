@@ -5,9 +5,7 @@ import {
   PhoneIcon,
   PlayPauseIcon,
 } from "@heroicons/react/20/solid";
-
 import { useState } from "react";
-
 import Navbar from "../layouts/navbar";
 
 function classNames(...classes) {
@@ -20,11 +18,11 @@ const ContactUs = () => {
   return (
     <Navbar>
       <div className="main-div">
-        <div className="grid grid-cols-1 lg:grid-cols-2 ">
+        <div className="grid grid-cols-1 lg:grid-cols-2  ">
           {/* Left Side*/}
-          <div className="isolate bg-white px-6 py-24 sm:py-10 lg:px-7 p-7">
+          <div className="isolate bg-white px-6 py-24 sm:py-10 lg:px-7 p-7 ">
             <div
-              className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+              className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[3rem]"
               aria-hidden="true"
             >
               <div
@@ -195,7 +193,7 @@ const ContactUs = () => {
           </div>
           {/* Right Side */}
           <div className="isolate bg-white px-6 py-24 sm:py-10 lg:py-20 flex justify-center ">
-            <div className="border rounded-lg h-full p-10 bg-gray-100">
+            <div className="border rounded-lg h-full p-10 bg-gray-100 ">
               <h2 className="text-3xl font-bold mb-4">Get in touch</h2>
               <p className="text-gray-600 mb-8">
                 Proin volutpat consequat porttitor cras nullam gravida at. Orci
