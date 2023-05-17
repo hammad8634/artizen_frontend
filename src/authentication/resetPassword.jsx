@@ -1,34 +1,27 @@
-import React, {  useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const ForgotPasswordPage = () => {
-  const [email, setEmail] = useState("");
+const ResetPasswordPage = () => {
+  const { token } = useParams(); // Get the reset token from the URL
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const navigate = useNavigate();
 
   const handleForgotPasswordClick = async () => {
     // console.warn("Data: ", user, password);
-    let data = { email };
+    let data = { password, passwordConfirm };
 
-    let result = await fetch(
-      "http://localhost:8000/api/v1/buyer/forgotpassword",
+    let result = await axios.patch(
+      `http://localhost:8000/api/v1/buyer/resetpassword/${token}`,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-
-        body: JSON.stringify(data),
+        ...data,
       }
     );
 
-    result = await result.json();
-    console.warn("Result=====", result);
-    if (result.status === "success") {
-      alert(result.message);
+    if (result.status === 201) {
+      alert("Password Updated successfully.");
       navigate(`/login`);
-    } else {
-      alert("Email not found. Try Again with correct email.");
     }
   };
 
@@ -45,33 +38,56 @@ const ForgotPasswordPage = () => {
         <div className="relative flex-1 flex justify-center px-4 py-10 sm:px-6 lg:px-20 xl:px-40 z-10 mt-10">
           <div className="mx-auto w-full max-w-sm">
             <div>
-              <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-                Forgot Password
+              <h2 className="mt-8 text-3xl font-bold tracking-tight text-gray-900">
+                Reset Password
               </h2>
             </div>
 
-            <div className="mt-8">
+            <div className="">
               <div className="mt-6">
-                <div className="space-y-10">
-                  <div>
+                <div className="space-y-6">
+                  <div className="space-y-1">
                     <label
-                      htmlFor="email"
+                      htmlFor="password"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Email address
+                      Password
                     </label>
                     <div className="mt-2">
                       <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autoComplete="email"
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
                         required
                         className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder="Email"
-                        value={email}
+                        placeholder="Password"
+                        value={password}
                         onChange={(e) => {
-                          setEmail(e.target.value);
+                          setPassword(e.target.value);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="confirm-password"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="confirm-password"
+                        name="confirm-password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        placeholder="Confirm Password"
+                        value={passwordConfirm}
+                        onChange={(e) => {
+                          setPasswordConfirm(e.target.value);
                         }}
                       />
                     </div>
@@ -82,7 +98,7 @@ const ForgotPasswordPage = () => {
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       onClick={handleForgotPasswordClick}
                     >
-                      Reset Password
+                      Reset My Password
                     </button>
                   </div>
                   <p>
@@ -104,4 +120,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

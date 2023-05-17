@@ -137,62 +137,63 @@ const AboutUs = () => {
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Our Team</h2>
           <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4 p-4">
-            {teamMembers.map((member) => (
-              <div
-                className="flex flex-col items-center justify-center p-12 transition-colors duration-300 transform border cursor-pointer rounded-xl group hover:bg-blue-200 dark:border-gray-700"
-                key={member.name}
-              >
-                <img
-                  className="object-cover w-32 h-32 rounded-full ring-1 ring-black p-2"
-                  src={UserIcon}
-                  alt=""
-                />
-                <h1 className="mt-4 text-2xl font-semibold text-gray-700 capitalize">
-                  {member.name}
-                </h1>
-                <p className="mt-2 text-gray-500 capitalize dark:text-gray-800">
-                  {member.designation}
-                </p>
-                <div className="flex mt-3 -mx-2">
-                  {member.socialMedia.map((social) => (
-                    <a
-                      href={social.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mx-2 text-gray-600 dark:text-gray-700 text-gray-700"
-                      aria-label={social.platform}
-                      key={social.platform}
-                    >
-                      {social.platform === "LinkedIn" && (
-                        <FaLinkedin
-                          size={20}
-                          className="fill-current hover:text-blue-700"
-                        />
-                      )}
-                      {social.platform === "Twitter" && (
-                        <FaTwitter
-                          size={20}
-                          className="fill-current hover:text-blue-700"
-                        />
-                      )}
-                      {social.platform === "Instagram" && (
-                        <FaInstagram
-                          size={20}
-                          className="fill-current hover:text-blue-700"
-                        />
-                      )}
-                      {social.platform === "GitHub" && (
-                        <FaGithub
-                          size={20}
-                          className="fill-current hover:text-blue-700"
-                        />
-                      )}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+  {teamMembers.map((member) => (
+    <div
+      className="flex flex-col items-center justify-center p-12 transition-colors duration-300 transform border cursor-pointer rounded-xl group hover:bg-customColor hover:text-white dark:border-gray-700"
+      key={member.name}
+    >
+      <img
+        className="object-cover w-32 h-32 rounded-full ring-1 ring-black p-2"
+        src={UserIcon}
+        alt=""
+      />
+      <h1 className="mt-4 text-2xl font-semibold capitalize hover:text-white">
+        {member.name}
+      </h1>
+      <p className="mt-2 capitalize group-hover:text-white dark:text-gray-800">
+        {member.designation}
+      </p>
+      <div className="flex mt-3 -mx-2">
+        {member.socialMedia.map((social) => (
+          <a
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mx-2 dark:hover:text-white text-gray-700 group-hover:text-white"
+            aria-label={social.platform}
+            key={social.platform}
+          >
+            {social.platform === "LinkedIn" && (
+              <FaLinkedin
+                size={20}
+                className="fill-current group-hover:text-white"
+              />
+            )}
+            {social.platform === "Twitter" && (
+              <FaTwitter
+                size={20}
+                className="fill-current group-hover:text-white"
+              />
+            )}
+            {social.platform === "Instagram" && (
+              <FaInstagram
+                size={20}
+                className="fill-current group-hover:text-white"
+              />
+            )}
+            {social.platform === "GitHub" && (
+              <FaGithub
+                size={20}
+                className="fill-current group-hover:text-white"
+              />
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
       </div>
     </Navbar>

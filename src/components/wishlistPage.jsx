@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Navbar from "../layouts/navbar";
 
 const WishlistPage = () => {
-  const [wishlist, setWishlist] = useState([
-    {
-      id: 1,
-      name: "Product 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-      price: 19.99,
-      availability: "In Stock",
-      image:
-        "https://s3.envato.com/files/223514658/Theme%20Previews/11-Wishlist.jpg",
+  const user_info = JSON.parse(localStorage.getItem("user"));
+  const user_id = user_info.data._id;
+  console.log("user Id is ------- ", user_id);
+  const user_token = user_info.token;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user_token}`,
     },
-    {
-      id: 2,
-      name: "Product 2",
-      description:
-        "Sed ut perspiciatis  mjndhbggbvv vunde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
-      price: 24.99,
-      availability: "Out of Stock",
-      image:
-        "https://s3.envato.com/files/223514658/Theme%20Previews/11-Wishlist.jpg",
-    },
-  ]);
+  };
+
+  const [wishlist, setWishlist] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/v1/wishlist/one/${user_id}`)
+      .then((response) => {
+        setWishlist(response.data.wishlist);
+      })
+      .catch((error) => {
+        console.error("Error fetching wishlist:", error);
+      });
+  }, [user_id]);
 
   const removeFromWishlist = (productId) => {
     const updatedWishlist = wishlist.filter(
@@ -32,9 +33,23 @@ const WishlistPage = () => {
     setWishlist(updatedWishlist);
   };
 
-  const addToCart = (productId) => {
-    // Add logic to add the product to the cart
-    console.log(`Product with ID ${productId} added to cart!`);
+  const addToCart = (_id) => {
+    const data = {
+      userId: user_id,
+      productId: _id,
+    };
+
+    axios
+      .post("http://localhost:8000/api/v1/cart/create", data, config)
+      .then((response) => {
+        // Handle successful addition to cart
+        alert("Product added to cart, successfully");
+        console.log("Product added to cart:", response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error adding to cart:", error);
+      });
   };
 
   return (
@@ -45,10 +60,10 @@ const WishlistPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-8 gap-4 bg-gray-100 py-2 px-4 font-bold items-center">
             <div className="md:col-span-1">Product Photo</div>
             <div className="md:col-span-1 ">Name</div>
-            <div className="md:col-span-2 text-center">Description</div>
+            <div className="md:col-span-2">Description</div>
             <div className="md:col-span-1">Price</div>
             <div className="md:col-span-1">Availability</div>
-            <div className="md:col-span-2 text-center">Add to Cart</div>
+            <div className="md:col-span-2 text-center">Actions</div>
           </div>
           {wishlist.map((product) => (
             <div
@@ -59,33 +74,33 @@ const WishlistPage = () => {
                 <a href="#.">
                   {" "}
                   <img
-                    src={product.image}
-                    alt={product.name}
+                    src={product.productImages[0]}
+                    alt={product.productName}
                     className="w-24 h-20 object-cover rounded"
                   />
                 </a>
               </div>
               <div className="md:col-span-1 flex items-center">
-                {product.name}
+                {product.productName}
               </div>
               <div className="md:col-span-2 line-clamp-2 flex items-center">
                 {product.description}
               </div>
               <div className="md:col-span-1 flex items-center">
-                ${product.price.toFixed(2)}
+                Rs. {product.originalPrice}
               </div>
               <div className="md:col-span-1 text-center flex items-center">
                 <div
                   className={`${
-                    product.availability === "Out of Stock"
-                      ? "border border-red-500 w-auto p-2 bg-red-500 rounded-lg text-white "
+                    product.quantity < 1
+                      ? "border border-red-500 w-auto p-2 bg-red-500 rounded-lg text-white"
                       : "border border-green-500 w-auto p-2 bg-green-500 rounded-lg text-white"
                   }`}
                 >
-                  {" "}
-                  {product.availability}{" "}
-                </div>{" "}
-              </div>{" "}
+                  {product.quantity < 1 ? "Out of Stock" : "In Stock"}
+                </div>
+              </div>
+
               <div className="md:col-span-2  justify-center md:justify-end flex items-center p-1">
                 <button
                   className={`bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg ${
@@ -93,7 +108,10 @@ const WishlistPage = () => {
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-blue-600"
                   }`}
-                  onClick={() => addToCart(product.id)}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent the default behavior
+                    addToCart(product._id);
+                  }}
                   disabled={product.availability === "Out of Stock"}
                 >
                   Add to Cart

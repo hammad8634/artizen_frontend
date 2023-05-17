@@ -192,18 +192,7 @@ const CheckoutForm = () => {
                       placeholder=""
                     />
                   </div>
-                  <div className="mb-8">
-                    <label htmlFor="cardName" className="block mb-2  ">
-                      Name on Card
-                    </label>
-                    <input
-                      type="text"
-                      id="cardName"
-                      className="w-full p-2 border border-gray-300 rounded-lg"
-                      required
-                      placeholder=""
-                    />
-                  </div>
+                 
                   <div className="flex">
                     <div className="w-1/2 pr-2">
                       <label htmlFor="expiration" className="block mb-2  ">

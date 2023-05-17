@@ -1,6 +1,7 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import RecommendedProducts from "./recommendedProducts";
 
 const RatingSection = () => {
   const ratings = [
@@ -20,10 +21,7 @@ const RatingSection = () => {
             <div className="flex justify-between p-4">
               <div className="flex space-x-4">
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center border border-gray-400">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="text-yellow-600 "
-                  />
+                  <FontAwesomeIcon icon={faUser} className="text-yellow-600 " />
                 </div>
                 <div>
                   <h4 className="font-bold">Leroy Jenkins</h4>
@@ -106,6 +104,7 @@ const RatingSection = () => {
           </div>
         </div>
       </div>
+        <RecommendedProducts/>
     </>
   );
 };

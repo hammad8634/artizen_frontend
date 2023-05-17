@@ -51,7 +51,7 @@ const LoginPage = () => {
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
               <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
-                Sign in to your account
+                Log in to your account
               </h2>
             </div>
 
@@ -59,7 +59,7 @@ const LoginPage = () => {
               <div>
                 <div>
                   <p className="text-sm font-medium leading-6 text-gray-900">
-                    Sign in with:
+                    Log in with:
                   </p>
 
                   <div className="mt-2 grid grid-cols-2 gap-2">
@@ -68,7 +68,7 @@ const LoginPage = () => {
                         href="https://www.facebook.com/login/"
                         className="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
                       >
-                        <span className="sr-only">Sign in with Facebook</span>
+                        <span className="sr-only">Log in with Facebook</span>
                         <svg
                           className="h-7 w-7"
                           aria-hidden="true"
@@ -85,7 +85,7 @@ const LoginPage = () => {
                         href="https://accounts.google.com/v3/signin/identifier?dsh=S-1005734133%3A1683586203890348&authuser=0&continue=http%3A%2F%2Fsupport.google.com%2Fmail%2Fanswer%2F8494%3Fhl%3Den%26co%3DGENIE.Platform%253DDesktop&ec=GAlAdQ&hl=en&flowName=GlifWebSignIn&flowEntry=AddSession"
                         className="inline-flex w-full justify-center rounded-md bg-white px-5 py-2 text-gray-800 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
                       >
-                        <span className="sr-only">Sign in with Google</span>
+                        <span className="sr-only">Log in with Google</span>
                         <svg
                           className="h-7 w-7"
                           aria-hidden="true"
@@ -199,13 +199,13 @@ const LoginPage = () => {
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       onClick={handleLogin}
                     >
-                      Sign in
+                      Log in
                     </button>
                   </div>{" "}
                   <p className="text-sm  ">
                     Don't have an account?{" "}
                     <a
-                      href="#"
+                      href="/signup"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       {" "}

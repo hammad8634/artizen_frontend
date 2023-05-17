@@ -1,60 +1,85 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useState } from "react";
-
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    price: "$32.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  {
-    id: 3,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 4,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    price: "$90.00",
-    quantity: 1,
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-];
+import axios from "axios";
+import { Fragment, useEffect, useState } from "react";
 
 const CartPage = () => {
   const [open, setOpen] = useState(true);
+  const [cart, setCart] = useState([]);
+  const user_info = JSON.parse(localStorage.getItem("user"));
+  const user_id = user_info.data._id;
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/v1/cart/allItems/${user_id}`)
+      .then((response) => {
+        setCart(response.data.cart);
+      })
+      .catch((error) => {
+        console.error("Error fetching Cart Products:", error);
+      });
+  }, [user_id]);
+
+  const handleQuantityChange = (index, quantity) => {
+    const updatedCart = [...cart];
+    updatedCart[index].quantity = quantity;
+    setCart(updatedCart);
+  };
+
+  const handleQuantityIncrement = (index) => {
+    const updatedQuantity = cart[index].quantity + 1;
+    handleQuantityChange(index, updatedQuantity);
+  };
+
+  const handleQuantityDecrement = (index) => {
+    const updatedQuantity = cart[index].quantity - 1;
+    handleQuantityChange(index, updatedQuantity);
+  };
+  const handleApplyQuantity = (productId, quantity) => {
+    axios
+      .patch(
+        `http://localhost:8000/api/v1/cart/updateCartItemQuantity/${productId}`,
+        {
+          quantity,
+        }
+      )
+      .then((response) => {
+        const updatedCart = [...cart];
+        const cartItemIndex = updatedCart.findIndex(
+          (item) => item.product._id === productId
+        );
+        updatedCart[cartItemIndex].quantity = response.data.cartItem.quantity;
+        setCart(updatedCart);
+      })
+      .catch((error) => {
+        console.error("Error updating cart item quantity:", error);
+      });
+  };
+
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    cart.forEach((cartItem) => {
+      const { quantity, product } = cartItem;
+      const productTotal = quantity * product.salePrice;
+      subtotal += productTotal;
+    });
+    return subtotal;
+  };
+
+  const handleRemoveItem = (productId) => {
+    axios
+      .delete(`http://localhost:8000/api/v1/cart/delete/${productId}`)
+      .then((response) => {
+        const updatedCart = cart.filter(
+          (cartItem) => cartItem.product._id !== productId
+        );
+        setCart(updatedCart);
+        alert("Product Removed successfully");
+      })
+      .catch((error) => {
+        console.error("Error removing item from cart:", error);
+      });
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -100,68 +125,148 @@ const CartPage = () => {
                             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
-                      </div>
-
+                      </div>{" "}
                       <div className="mt-8">
-                        <div className="flow-root">
-                          <ul className="-my-6 divide-y divide-gray-200">
-                            {products.map((product) => (
-                              <li key={product.id} className="flex py-6">
-                                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                  <img
-                                    src={product.imageSrc}
-                                    alt={product.imageAlt}
-                                    className="h-full w-full object-cover object-center"
-                                  />
-                                </div>
-
-                                <div className="ml-4 flex flex-1 flex-col">
-                                  <div>
-                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>
-                                        <a href={product.href}>
-                                          {product.name}
-                                        </a>
-                                      </h3>
-                                      <p className="ml-4">{product.price}</p>
-                                    </div>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                      {product.color}
-                                    </p>
+                        {cart.length > 0 ? ( // Check if cart is not empty
+                          <div className="flow-root">
+                            <ul className="-my-6 divide-y divide-gray-200">
+                              {cart.map((cartItem, index) => (
+                                <li key={index} className="flex py-6">
+                                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                    <img
+                                      src={cartItem?.product?.productImages[0]}
+                                      alt={cartItem?.product?.productName}
+                                      className="h-full w-full object-cover object-center"
+                                    />
                                   </div>
-                                  <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
-                                      Qty {product.quantity}
-                                    </p>
 
-                                    <div className="flex">
-                                      <button
-                                        type="button"
-                                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                                      >
-                                        Remove
-                                      </button>
+                                  <div className="ml-4 flex flex-1 flex-col">
+                                    <div>
+                                      <div className="flex justify-between text-base font-medium ">
+                                        <h3 className="text-xl">
+                                          <a href={cartItem?.product?.href}>
+                                            {cartItem?.product?.productName}
+                                          </a>
+                                        </h3>
+                                        <p className="ml-4">
+                                          Rs.{cartItem?.product?.salePrice}
+                                        </p>
+                                      </div>
+                                      <p className="mt-1 text-md mb-2">
+                                        Color: {cartItem?.product?.colors[0]}
+                                      </p>
+                                    </div>
+                                    <div className="flex flex-1 items-end justify-between text-sm">
+                                      <div className="flex">
+                                        <button
+                                          type="button"
+                                          className="bg-gray-200 text-gray-500 hover:bg-gray-300 px-2 py-1 rounded-md"
+                                          onClick={() =>
+                                            handleQuantityDecrement(index)
+                                          }
+                                          disabled={cartItem.quantity === 0}
+                                        >
+                                          <span className="sr-only">
+                                            Decrement
+                                          </span>
+                                          <svg
+                                            className="h-4 w-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth={2}
+                                              d="M20 12H4"
+                                            />
+                                          </svg>
+                                        </button>
+                                        <input
+                                          type="text"
+                                          className="p-2 text-center w-10 mx-1 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                          value={cartItem.quantity}
+                                          readOnly
+                                        />
+                                        <button
+                                          type="button"
+                                          className="bg-gray-200 text-gray-500 hover:bg-gray-300 px-2 py-1 rounded-md"
+                                          onClick={() =>
+                                            handleQuantityIncrement(index)
+                                          }
+                                        >
+                                          <span className="sr-only">
+                                            Increment
+                                          </span>
+                                          <svg
+                                            className="h-4 w-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth={2}
+                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                            />
+                                          </svg>
+                                        </button>
+                                      </div>
+                                      <div className="flex">
+                                        <button
+                                          type="button"
+                                          className="font-medium hover:text-white hover:bg-blue-700 p-2 border mr-1 rounded-lg bg-blue-500 "
+                                          onClick={() =>
+                                            handleApplyQuantity(
+                                              cartItem.product._id,
+                                              cartItem.quantity
+                                            )
+                                          }
+                                        >
+                                          Apply
+                                        </button>{" "}
+                                        {""}
+                                        <button
+                                          type="button"
+                                          className="font-medium hover:text-white hover:blue-red-700 p-2 border ml-1 rounded-lg bg-red-400"
+                                          onClick={() =>
+                                            handleRemoveItem(
+                                              cartItem.product._id
+                                            )
+                                          }
+                                        >
+                                          Remove
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : (
+                          <div className="flex justify-center items-center h-64">
+                            <p className="text-lg ">
+                              Cart is empty.
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
 
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>$262.00</p>
+                        <p>Rs. {calculateSubtotal()}</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">
                         Shipping and taxes calculated at checkout.
                       </p>
                       <div className="mt-6">
                         <a
-                          href="#s"
+                          href="/checkout"
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Checkout
@@ -176,7 +281,7 @@ const CartPage = () => {
                             onClick={() => setOpen(false)}
                           >
                             Continue Shopping
-                            <span aria-hidden="true"> &rarr;</span>
+                            <span aria-hidden="true"> →</span>
                           </button>
                         </p>
                       </div>

@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.goog-logo-link {
+  color: transparent !important;
+  font-size: 0;
+}
+
+.goog-te-gadget {
+  font-size: 0;
+  color: transparent !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+  color: black !important;
+}
+#google_translate_element {
+  color: transparent;
+}
+#google_translate_element a {
+  display: none;
+}
+.goog-te-gadget .goog-te-combo:hover {
+  color: red !important;
+}
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+    } 

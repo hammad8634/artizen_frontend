@@ -16,6 +16,7 @@ import ProductDetailPage from "./components/singleProduct";
 import WishlistPage from "./components/wishlistPage";
 import { default as Page404 } from "./errorPages/404Page";
 import "./tailwind.css";
+import ResetPasswordPage from "./authentication/resetPassword";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/checkout" element={<CheckoutForm />} />
           <Route path="/shop" element={<FilterPageProducts />} />
-          <Route path="/singleproduct" element={<ProductDetailPage />} />
+          <Route path="/singleproduct/:id" element={<ProductDetailPage />} />
           <Route path="/contactUs" element={<ContactUs />} />
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="*" element={<Page404 />} />
@@ -42,6 +43,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword/:token" element={<ResetPasswordPage />} />
         </Routes>
         {/* </BrowserRouter> */}
       </header>
